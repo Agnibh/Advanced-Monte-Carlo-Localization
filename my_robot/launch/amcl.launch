@@ -6,18 +6,20 @@
 
   <!-- AMCL Node -->
   <node name="amcl" pkg="amcl" type="amcl" output="screen">
-
+   <remap from="scan" to="/scan"/>
    <!-- Overall filter parameters -->
    <param name="initial_pose_x" value="0"/>
    <param name="initial_pose_y" value="0"/>
    <param name="max_particles" value="200"/>
+   <param name="min_particles" value="20"/>
    <param name="update_min_d" value="0.1"/>
-   
+ 
    <!-- Laser model parameters -->
+   <param name="laser_model_type" value="likelihood_field"/>
    <param name="laser_max_range" value="15"/>
    <param name="laser_max_beams" value="15"/>
-   <param name="laser_z_hit" value="0.5"/>
-   <param name="laser_z_rand" value="0.5"/>
+   <param name="laser_z_hit" value="0.9"/>
+   <param name="laser_z_rand" value="0.1"/>
 
    <!-- Odometry model parameters -->
   <param name="odom_frame_id" value="odom"/>
@@ -29,6 +31,7 @@
 
   <!-- Move Base -->
   <node name="move_base" pkg="move_base" type="move_base" respawn="false" output="screen">
+  <remap from="scan" to="/scan"/>
   <param name="base_global_planner" value="navfn/NavfnROS" />
   <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
   <rosparam file="$(find my_robot)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
